@@ -1,0 +1,10 @@
+*.log
+.env
+*.key
+*.pem
+*.crt
+*.pfx
+*.p12
+__pycache__/
+*.pyc
+.DS_Store
