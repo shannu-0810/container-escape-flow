@@ -4,7 +4,6 @@ A controlled cybersecurity laboratory demonstrating how an intentionally exposed
 Docker daemon socket can allow a container to interact with the Docker daemon
 and create a container with access to a host-controlled directory.
 
-This project is designed for an isolated VirtualBox college cybersecurity lab.
 
 ## Architecture
 
