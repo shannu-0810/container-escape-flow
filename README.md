@@ -162,23 +162,3 @@ Check:
     │   └── attack-flow.md
     └── scripts/
         └── setup.sh
-
-## Educational Objective
-
-The purpose of this laboratory is to demonstrate:
-
-1. Containerized application deployment
-2. Docker socket exposure
-3. Docker daemon access from a container
-4. Container-to-host impact through Docker control
-5. Evidence collection
-6. Security implications of privileged container configurations
-
-## Security Note
-
-This project intentionally introduces an insecure Docker configuration.
-
-Do not deploy the vulnerable configuration on production systems,
-internet-facing systems, or networks containing sensitive data.
-
-Use only inside an authorized isolated laboratory.
