@@ -90,38 +90,5 @@ Expected:
 
     Container escape successful
 
-## Evidence Checklist
 
-- [ ] Application reachable from Kali
-- [ ] Docker socket visible inside escape-lab
-- [ ] Docker daemon accessible from escape-lab
-- [ ] Helper container created
-- [ ] Host-side proof file created
-- [ ] Screenshots captured
 
-## Security Impact
-
-Access to the Docker daemon socket is highly sensitive.
-
-A container with access to the Docker daemon may be able to control Docker
-resources and potentially obtain access to host resources.
-
-## Mitigation
-
-- Do not expose `/var/run/docker.sock` to untrusted containers.
-- Follow least-privilege container design.
-- Use rootless/containerized Docker where appropriate.
-- Consider a restricted Docker API proxy when socket access is required.
-- Apply AppArmor or SELinux controls where appropriate.
-- Segment container and management networks.
-- Monitor container runtime activity.
-- Regularly review container mounts and privileges.
-
-## Lab Safety
-
-This project intentionally introduces an insecure Docker configuration.
-
-Do not deploy this vulnerable configuration on production systems,
-internet-facing systems, or networks containing sensitive information.
-
-Use only inside an authorized and isolated laboratory environment.
